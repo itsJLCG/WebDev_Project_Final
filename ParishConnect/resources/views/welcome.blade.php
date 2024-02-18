@@ -3,7 +3,7 @@
 @section('styles')
   <style>
     body {
-      background-image: url('/images/ParishConnect1.jpg');
+      background-image: url('/images/output-onlinepngtools.png');
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;

@@ -1,0 +1,92 @@
+/* styles.css */
+body {
+    background-image: url('/images/output-onlinepngtools_lr.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #5c67cf;
+  }
+  
+  .header img {
+    width: 200px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    margin-bottom: 10px;
+  }
+  
+  .form-label,
+  .form-control {
+    color: #5c67cf; /* Text color */
+    border-color: #5c67cf; /* Border color */
+  }
+  
+  .form-control:focus {
+    border-color: #5c67cf;
+    box-shadow: 0 0 0 0.25rem rgba(92, 103, 207, 0.25); /* Adjust box shadow for focus effect */
+  }
+  
+  .btn-primary {
+    background-color: #5c67cf; /* Button background color */
+    border-color: #5c67cf; /* Button border color */
+  }
+  
+  .btn-primary:hover {
+    color: #fff; /* Text color on hover */
+  }
+
+.navbar {
+  background-color: #2E4374;
+}
+
+.navbar-brand img {
+  height: 65px;
+  width: auto;
+  margin-right: -20px;
+}
+
+.navbar-brand span {
+  font-size: 35px;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: white;
+}
+
+.navbar-nav .nav-item .nav-link.active div {
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.navbar-nav .nav-item1 .nav-link {
+  color: white;
+}
+
+.navbar-nav .nav-item1 .nav-link div {
+  border: 2px solid rgb(90, 120, 255);
+  padding: 5px;
+}
+
+.navbar-nav .nav-item1 .nav-link.active div {
+  border: 2px solid rgb(90, 92, 255);
+  padding: 5px;
+}
+
+.navbar-nav .nav-item .nav-link div {
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.navbar-text {
+  color: white;
+}
+
+  

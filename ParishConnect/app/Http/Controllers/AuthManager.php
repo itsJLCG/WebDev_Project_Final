@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AuthManager extends Controller
@@ -27,10 +26,14 @@ class AuthManager extends Controller
             'password' => 'required'
         ]);
 
-        $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials)){
+        $user = User::where('email', $request->email)->first();
+
+        // Check if the user exists and the passwords match
+        if ($user && $user->password === $request->password) {
+            Auth::login($user);
             return redirect()->intended(route('home'));
         }
+
         return redirect(route('login'))->with("error", "Login Details are Not Valid");
     }
 
@@ -40,17 +43,18 @@ class AuthManager extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
-
+    
         $data['name'] = $request->name;
         $data['email'] = $request->email;
-        $data['password'] = Hash::make($request->password);
+        $data['password'] = $request->password; 
         $user = User::create($data);
+        
         if(!$user){
             return redirect(route('registration'))->with("error", "Registration Failed, Try Again");
         }
         
         return redirect(route('login'))->with("success", "Registration Successful, Login to Access");
-        }
+    }    
 
     function logout(){
         Session::flush();

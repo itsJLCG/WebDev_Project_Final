@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/scheduling', function () {
+        return "This is the scheduling page.";
+    })->name('scheduling');
+    
+    Route::get('/livestreaming', function () {
+        return "This is the livestreaming page.";
+    })->name('livestreaming');
+    
+    Route::get('/prayers', function () {
+        return "This is the prayers page.";
+    })->name('prayers');
+    
+    Route::get('/resources', function () {
+        return "This is the resources page.";
+    })->name('resources');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -23,8 +42,6 @@ Route::post('/login', [AuthManager::class, 'loginPost'])->name('login.post');
 Route::get('/registration', [AuthManager::class, 'registration'])->name('registration');
 Route::post('/registration', [AuthManager::class, 'registrationPost'])->name('registration.post');
 Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
-Route::group(['middleware' => 'auth'], function (){
-    Route::get('/scheduling', function (){
-        return "DITO ANG FOR SCHEDULING";
-    });
-});
+
+
+
