@@ -84,5 +84,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
+Route::group(['middleware' => 'restrict'], function () {
+    Route::get('/typography', function () {
+        return view('pages.typography');
+    })->name('typography');
+    Route::get('/maps', function () {
+        return view('pages.maps');
+    })->name('maps');
+    Route::get('/table', function () {
+        return view('pages.table');
+    })->name('table');
+});
 
 

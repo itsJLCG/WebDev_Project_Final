@@ -44,6 +44,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'valid_id' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
     }
 
@@ -81,13 +82,21 @@ class RegisterController extends Controller
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
         'user_image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        'valid_id' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
     ]);
 
-    // Handle file upload
+    // Handle file upload for user image
     if ($request->hasFile('user_image')) {
-        $image = $request->file('user_image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('assets/img'), $imageName); // Save the image to public/assets/img directory
+        $userImage = $request->file('user_image');
+        $userImageName = $userImage->getClientOriginalName();
+        $userImage->move(public_path('assets/img'), $userImageName);
+    }
+
+    // Handle file upload for valid ID
+    if ($request->hasFile('valid_id')) {
+        $validIdImage = $request->file('valid_id');
+        $validIdImageName = $validIdImage->getClientOriginalName();
+        $validIdImage->move(public_path('assets/img'), $validIdImageName);
     }
 
     // Create user instance
@@ -95,8 +104,11 @@ class RegisterController extends Controller
     $user->name = $request->name;
     $user->email = $request->email;
     $user->password = Hash::make($request->password);
-    if (isset($imageName)) {
-        $user->user_image = $imageName; // Assign the image name to user_image field
+    if (isset($userImageName)) {
+        $user->user_image = $userImageName;
+    }
+    if (isset($validIdImageName)) {
+        $user->valid_id = $validIdImageName;
     }
     $user->save();
 
