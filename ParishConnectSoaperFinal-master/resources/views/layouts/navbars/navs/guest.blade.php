@@ -26,11 +26,6 @@
             <i class="now-ui-icons users_circle-08"></i> {{ __("Login") }}
           </a>
         </li>
-        <li class="nav-item @if ($activePage == 'admin') active @endif ">
-            <a href="{{ route('admin') }}" class="nav-link">
-              <i class="now-ui-icons users_circle-08"></i> {{ __("Admin") }}
-            </a>
-          </li>
       </ul>
     </div>
   </div>

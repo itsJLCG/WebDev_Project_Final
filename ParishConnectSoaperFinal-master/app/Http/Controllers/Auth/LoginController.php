@@ -25,21 +25,21 @@ class LoginController extends Controller
      *
      * @var string
      */
+    protected $redirectTo = '/home';
 
-     protected function authenticated($request, $user)
-     {
-         if ($user->status === 'Pending') {
-             auth()->logout();
-             return redirect()->route('login')->with('error', 'Your account is Pending for Approval');
-         }
+    protected function authenticated($request, $user)
+    {
+        if ($user->role === 'Admin') {
+            return redirect()->intended($this->redirectPath());
+        }
 
-         if ($user->is_admin == 1) {
-             return redirect()->intended('/admin');
-         }
+        if ($user->status === 'Pending') {
+            auth()->logout();
+            return redirect()->route('login')->with('error', 'Your account is Pending for Approval');
+        }
 
-         return redirect()->intended('/home');
-     }
-
+        return redirect()->intended($this->redirectPath());
+    }
 
     /**
      * Create a new controller instance.
