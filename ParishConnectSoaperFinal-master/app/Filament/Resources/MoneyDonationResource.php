@@ -34,6 +34,8 @@ class MoneyDonationResource extends Resource
                 Forms\Components\TextInput::make('ModeOfDonation')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('MoneyDateOffered')
+                    ->required(),
                 Forms\Components\FileUpload::make('ProofOfDonationCash')
                     ->image()
                     ->disk('filament'),
@@ -55,6 +57,8 @@ class MoneyDonationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ModeOfDonation')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('MoneyDateOffered')
+                    ->date(),
                 Tables\Columns\ImageColumn::make('ProofOfDonationCash')
                     ->disk('filament'),
                 Tables\Columns\TextColumn::make('created_at')

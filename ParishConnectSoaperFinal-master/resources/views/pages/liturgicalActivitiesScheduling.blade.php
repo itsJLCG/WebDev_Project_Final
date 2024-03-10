@@ -12,25 +12,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    Schedule Now
+                    <h4 class="card-title">Schedule Now</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="font-size: 25px;">
                     <form action="{{ route('liturgicalActivity.store') }}" method="POST">
                         @csrf
-                        {{-- <div class="mb-3">
-                            <label for="ActivityType">Activity Type</label>
-                            <select name="ActivityType" id="ActivityType" class="form-control" required>
-                                <option value="">Select Activity Type</option>
-                                <option value="Baptism">Baptism</option>
-                                <option value="Marriage">Marriage</option>
-                                <option value="Communion">Communion</option>
-                                <option value="Prayers">Prayers</option>
-                            </select>
-                        </div> --}}
-                        {{-- <div class="mb-3">
-                            <label for="ActivityType">Activity Type</label>
-                            <input type="text" name="ActivityType" id="ActivityType" class="form-control" required>
-                        </div> --}}
                         <div class="mb-3">
                             <label for="ActivityType">Activity Type</label>
                             <select name="ActivityType" id="ActivityType" class="form-control" required>

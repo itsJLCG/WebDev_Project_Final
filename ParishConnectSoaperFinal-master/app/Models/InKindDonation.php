@@ -10,7 +10,7 @@ class InKindDonation extends Model
     use HasFactory;
 
     protected $table = 'inkinds';
-    protected $fillable = ['ProofOfDonationInKind', 'user_id', 'DescriptionDonation'];
+    protected $fillable = ['ProofOfDonationInKind', 'user_id', 'DescriptionDonation', 'InkindDateOffered'];
 
     public function user()
     {

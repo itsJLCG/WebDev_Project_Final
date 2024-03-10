@@ -11,6 +11,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                <div class="card-body" style="font-size: 25px;">
+                    <form action="{{ route('forum.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="comment">Add a comment:</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
                 <div class="card-header">
                     <h5 class="title">Forum Discussions</h5>
                 </div>
@@ -24,18 +37,6 @@
                         </div>
                     @endforeach
 
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="{{ route('forum.store') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="comment">Add a comment:</label>
-                                    <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

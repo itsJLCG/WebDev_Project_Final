@@ -22,6 +22,7 @@ class InKindDonationController extends Controller
         $donation = new InKindDonation();
         $donation->user_id = $user_id;
         $donation->DescriptionDonation = $request->DescriptionDonation;
+        $donation->InkindDateOffered = $request->InkindDateOffered;
 
         // Handle image upload
         if ($request->hasFile('ProofOfDonationInKind')) {

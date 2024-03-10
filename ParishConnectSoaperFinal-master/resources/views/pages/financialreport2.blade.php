@@ -20,6 +20,7 @@
                         <div class="card">
                             <div class="card-body" style="height: 300px;">
                                 <h5 class="card-title" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Description Of Donation: <span>{{ $donationIK->DescriptionDonation }}</span></h5>
+                                <h5 class="card-title" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Date Offered (InKind): <span>{{ $donationIK->InkindDateOffered }}</span></h5>
                                 <img src="{{ asset('assets/img/' . $donationIK->ProofOfDonationInKind) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
                             </div>
                         </div>

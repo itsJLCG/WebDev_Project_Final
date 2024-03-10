@@ -22,6 +22,7 @@ class MoneyDonationController extends Controller
         $donation->user_id = $user_id;
         $donation->CashAmount = $request->CashAmount;
         $donation->ModeOfDonation = $request->ModeOfDonation;
+        $donation->MoneyDateOffered = $request->MoneyDateOffered;
         $donation->ProofOfDonationCash = $request->ProofOfDonationCash;
         $donation->save();
 

@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'namePage' => 'Application',
+    'namePage' => 'Ministry Application',
     'class' => 'sidebar-mini',
     'activePage' => 'application',
 ])
@@ -14,11 +14,11 @@
                 <div class="card-header">
                     Apply Now
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="font-size: 25px;">
                     <form action="{{ route('application.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="ApplicationType">Application Type</label>
+                            <label for="ApplicationType">Ministry Application Type</label>
                             <select name="ApplicationType" id="ApplicationType" class="form-control" required>
                                 <option value="">Select Application Type</option>
                                 <option value="Choir">Choir</option>

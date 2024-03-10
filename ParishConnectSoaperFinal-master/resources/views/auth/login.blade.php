@@ -2,7 +2,7 @@
     'namePage' => 'Login page',
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'login',
-    'backgroundImage' => asset('assets') . "/img/ParishConnect_Login.jpg",
+    'backgroundImage' => asset('assets') . "/img/ParishConnect_Register.jpg",
 ])
 
 @section('content')

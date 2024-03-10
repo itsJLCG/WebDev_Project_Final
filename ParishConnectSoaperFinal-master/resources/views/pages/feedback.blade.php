@@ -8,14 +8,14 @@
   <div class="panel-header panel-header-sm">
   </div>
   <div class="content d-flex justify-content-center align-items-center">
-    <div class="card" style="width: 400px;">
+    <div class="card" style="width: 1000px;">
       <div class="card-header">
         <h5 class="title text-center">We'd Love Your Feedback</h5>
       </div>
-      <div class="card-body">
+      <div class="card-body" style="font-size: 25px;">
         <form action="{{ route('feed.store') }}" method="POST">
           @csrf
-          <div class="form-group text-center">
+          <div class="form-group text">
             <label for="satisfaction">Overall Satisfaction:</label>
             <div class="satisfaction-ratings">
                 <input type="radio" name="satisfaction" id="satisfaction1" value="Very Dissatisfied">

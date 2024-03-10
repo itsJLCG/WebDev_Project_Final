@@ -31,6 +31,8 @@ class InKindDonationResource extends Resource
                 Forms\Components\TextInput::make('DescriptionDonation')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('InkindDateOffered')
+                    ->required(),
                 Forms\Components\FileUpload::make('ProofOfDonationInKind')
                     ->image()
                     ->disk('filament'),
@@ -49,6 +51,8 @@ class InKindDonationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('DescriptionDonation')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('InkindDateOffered')
+                    ->date(),
                 Tables\Columns\ImageColumn::make('ProofOfDonationInKind')
                     ->disk('filament'),
                 Tables\Columns\TextColumn::make('created_at')

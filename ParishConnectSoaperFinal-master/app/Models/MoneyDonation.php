@@ -11,7 +11,7 @@ class MoneyDonation extends Model
     use HasFactory;
 
     protected $table = 'moneydonations';
-    protected $fillable = ['ProofOfDonationCash', 'user_id', 'CashAmount', 'ModeOfDonation'];
+    protected $fillable = ['ProofOfDonationCash', 'user_id', 'CashAmount', 'ModeOfDonation', 'MoneyDateOffered'];
 
 
     // Define the relationship with the User model

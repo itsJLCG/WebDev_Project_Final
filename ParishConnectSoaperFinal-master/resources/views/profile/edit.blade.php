@@ -15,7 +15,7 @@
           <div class="card-header">
             <h5 class="title">{{__(" Edit Profile")}}</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="font-size: 25px;">
             <form method="post" action="{{ route('profile.update') }}" autocomplete="off"
             enctype="multipart/form-data">
               @csrf
@@ -50,7 +50,7 @@
           <div class="card-header">
             <h5 class="title">{{__("Password")}}</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="font-size: 25px;">
             <form method="post" action="{{ route('profile.password') }}" autocomplete="off">
               @csrf
               @method('put')
@@ -93,7 +93,7 @@
           <div class="image">
             <img src="{{ asset('assets/img/ParishConnect.jpg') }}" alt="...">
           </div>
-          <div class="card-body">
+          <div class="card-body" style="font-size: 25px;">
             <div class="author">
               <a href="#">
                 <img class="avatar border-gray" src="{{ asset('assets/img/'.auth()->user()->user_image) }}" alt="User Image">
