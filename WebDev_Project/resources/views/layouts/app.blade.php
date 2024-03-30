@@ -67,7 +67,7 @@
                                         <a class="dropdown-item" href="{{ route('CRUDuser') }}">Users</a>
                                     @endif
                                     @if(Auth::user()->role === 'Admin')
-                                        <a class="dropdown-item" href="{{ route('CRUDproduct') }}">Add Product</a>
+                                        <a class="dropdown-item" href="{{ url('/CRUDproductIndex') }}">Add Product</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

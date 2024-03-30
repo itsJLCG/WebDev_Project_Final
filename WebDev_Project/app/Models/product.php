@@ -15,4 +15,7 @@ class product extends Model
         'product_price',
         'product_image',
     ];
+
+    protected $primaryKey = 'id_product';
+
 }

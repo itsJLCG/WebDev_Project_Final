@@ -45,10 +45,21 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::get('/adminPage', function () {
     return view('adminPage');
 })->name('adminPage');
-Route::get('/CRUDproduct', function () {
+/* Route::get('/CRUDproduct', function () {
     return view('CRUDproduct');
-})->name('CRUDproduct');
+})->name('CRUDproduct'); */
 Route::get('/CRUDuser', function () {
     return view('CRUDuser');
 })->name('CRUDuser');
+
+
+Route::get('/CRUDproductIndex', [ProductController::class, 'index']);
+Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products/create', [ProductController::class, 'store'])->name('products.store');
+
+
+
 
