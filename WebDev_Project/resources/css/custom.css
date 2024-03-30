@@ -1,0 +1,14 @@
+/* Decrease the size of Livewire pagination icons */
+.pg-icon {
+    font-size: 20rem; /* Adjust the font size as needed */
+}
+
+/* Decrease the size of Livewire search icon */
+.livewire-powergrid-search-icon {
+    font-size: 20rem; /* Adjust the font size as needed */
+}
+
+.livewire-powergrid-icon img {
+    width: 1px; /* Adjust the width as needed */
+    height: 1px; /* Adjust the height as needed */
+}
