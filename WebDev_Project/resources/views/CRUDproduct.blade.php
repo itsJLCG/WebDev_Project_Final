@@ -40,7 +40,7 @@
                                 <td>
                                     @if ($product->product_image)
                                         @foreach (explode(',', $product->product_image) as $image)
-                                            <img src="{{ asset('images/' . trim($image)) }}" alt="Product Image" style="max-width: 100px; margin-right: 5px;">
+                                            <img src="{{ asset('storage/images/' . trim($image)) }}" alt="Product Image" style="max-width: 100px; margin-right: 5px;">
                                         @endforeach
                                     @else
                                         No Image

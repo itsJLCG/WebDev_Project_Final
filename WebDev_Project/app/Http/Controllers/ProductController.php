@@ -40,7 +40,7 @@ class ProductController extends Controller
             foreach ($request->file('product_images') as $image) {
                 // Move each image to the public/images directory
                 $imageName = $image->getClientOriginalName();
-                $image->move(public_path('images'), $imageName);
+                $image->move(public_path('storage/images'), $imageName);
                 $productImages[] = $imageName;
             }
             // Store the list of image filenames as a comma-separated string
@@ -59,38 +59,50 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validate the incoming request data
-    $request->validate([
-        'product_name' => 'required|string|max:255',
-        'product_description' => 'required|string',
-        'product_price' => 'required|numeric',
-        'product_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
-    ]);
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'product_description' => 'required|string',
+            'product_price' => 'required|numeric',
+            'product_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
+        ]);
 
-    // Create a new product instance
-    $product = new Product();
-    $product->product_name = $request->product_name;
-    $product->product_description = $request->product_description;
-    $product->product_price = $request->product_price;
+        // Create a new product instance
+        $product = new Product();
+        $product->product_name = $request->product_name;
+        $product->product_description = $request->product_description;
+        $product->product_price = $request->product_price;
 
-    // Handle selected images
-    if ($request->hasFile('product_images')) {
-        $productImages = [];
-        foreach ($request->file('product_images') as $image) {
-            // Move each image to the public/images directory
-            $imageName = $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-            $productImages[] = $imageName;
+        // Handle selected images
+        if ($request->hasFile('product_images')) {
+            $productImages = [];
+            foreach ($request->file('product_images') as $image) {
+                // Move each image to the public/images directory
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('storage/images'), $imageName);
+                $productImages[] = $imageName;
+            }
+            // Store the list of image filenames as a comma-separated string
+            $product->product_image = implode(',', $productImages);
         }
-        // Store the list of image filenames as a comma-separated string
-        $product->product_image = implode(',', $productImages);
+
+        // Save the product
+        $product->save();
+
+        // Create a record in the stocks table with stockQuantity of 50 for the newly created product
+        \App\Models\Stock::create([
+            'id_product' => $product->id_product,
+            'stockQuantity' => 50,
+        ]);
+
+        // Redirect back to the index page with a success message
+        return redirect('/CRUDproductIndex')->with('status', 'Product created successfully.');
     }
 
-    // Save the product
-    $product->save();
-
-    // Redirect back to the index page with a success message
-    return redirect('/CRUDproductIndex')->with('status', 'Product created successfully.');
-}
+    public function indexOrder()
+    {
+        $products = Product::all();
+        return view('home', compact('products'));
+    }
 }

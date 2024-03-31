@@ -58,16 +58,15 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->role === 'Admin')
                                         <a class="dropdown-item" href="{{ route('adminPage') }}">Stocks</a>
-                                    @endif
-                                    @if(Auth::user()->role === 'Admin')
                                         <a class="dropdown-item" href="{{ route('CRUDuser') }}">Users</a>
-                                    @endif
-                                    @if(Auth::user()->role === 'Admin')
                                         <a class="dropdown-item" href="{{ url('/CRUDproductIndex') }}">Add Product</a>
+                                    @endif
+                                    @if(Auth::user()->role === 'user')
+                                    <a class="dropdown-item" href="{{ route('home') }}">Shop Here</a>
+                                    <a class="dropdown-item" href="{{ route('cart.show') }}">Cart</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

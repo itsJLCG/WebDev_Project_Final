@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +61,12 @@ Route::put('products/{id}', [ProductController::class, 'update'])->name('product
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/create', [ProductController::class, 'store'])->name('products.store');
+Route::get('/home', [ProductController::class, 'indexOrder'])->name('home');
+Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
+Route::post('/ordersAll', [OrderController::class, 'storeAll'])->name('order.storeAll');
+Route::get('/cart', [OrderController::class, 'showCart'])->name('cart.show');
+Route::patch('/cart/{id}', [OrderController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{id}', [OrderController::class, 'destroy'])->name('cart.delete');
 
 
 

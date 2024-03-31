@@ -18,4 +18,8 @@ class product extends Model
 
     protected $primaryKey = 'id_product';
 
+    public function stock()
+    {
+        return $this->hasOne(Stock::class, 'id_product');
+    }
 }
