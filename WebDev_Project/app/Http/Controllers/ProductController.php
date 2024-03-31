@@ -103,6 +103,7 @@ class ProductController extends Controller
     public function indexOrder()
     {
         $products = Product::all();
-        return view('home', compact('products'));
+
+        return view('home', ['products'=>$products]);
     }
 }

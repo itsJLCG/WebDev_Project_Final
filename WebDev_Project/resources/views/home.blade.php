@@ -20,7 +20,9 @@
                         <!-- "Order All" button -->
                         <button type="button" id="addToCartBtn" class="btn btn-danger mb-3">Add To Cart</button>
                         <div class="row">
+
                             @foreach ($products as $product)
+
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
                                         <div class="card-body">
