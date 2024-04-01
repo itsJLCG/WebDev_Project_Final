@@ -69,6 +69,7 @@
                                     <a class="dropdown-item" href="{{ route('home') }}">Shop Here</a>
                                     <a class="dropdown-item" href="{{ route('cart.show') }}">Cart</a>
                                     <a class="dropdown-item" href="{{ url('/posts') }}">Promotions</a>
+                                    <a class="dropdown-item" href="{{ route('orders') }}">Orders Status</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

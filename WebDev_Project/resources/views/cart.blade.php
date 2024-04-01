@@ -18,6 +18,10 @@
         </div>
     @endif
 
+    @if(isset($message))
+        <p>{{ $message }}</p>
+    @endif
+
     <table class="table">
         <thead>
             <tr>
@@ -71,6 +75,10 @@
             @else
                 <p>No items in the cart</p>
             @endif
+            <form action="{{ route('checkout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success">Checkout</button>
+            </form>
         </div>
     </div>
 </div>

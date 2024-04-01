@@ -10,9 +10,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::withTrashed()->get();
         return view('CRUDproduct', compact('products'));
     }
+
 
     public function destroy($id_product)
     {
@@ -106,4 +107,12 @@ class ProductController extends Controller
 
         return view('home', ['products'=>$products]);
     }
+
+    public function restore($id_product)
+    {
+        $products = Product::withTrashed()->where('id_product', $id_product)->first();
+        $products->restore();
+        return redirect()->route('products')->with('success', 'Product restored successfully.');
+    }
+
 }

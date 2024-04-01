@@ -58,10 +58,9 @@ Route::get('/CRUDuser', function () {
 })->name('CRUDuser');
 
 
-Route::get('/CRUDproductIndex', [ProductController::class, 'index']);
+Route::get('/CRUDproductIndex', [ProductController::class, 'index'])->name('products');
 Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
 Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/create', [ProductController::class, 'store'])->name('products.store');
 Route::get('/home', [ProductController::class, 'indexOrder'])->name('home');
@@ -98,14 +97,16 @@ Route::put('posts/{id}', [PostController::class, 'update'])->name('posts.update'
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store');
-Route::get('/home', [ProductController::class, 'indexOrder'])->name('home');
-
-
 Route::get('/posts', [PostController::class, 'show'])->name('posts.show');
 Route::get('/promo/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
 
+Route::get('/home', [ProductController::class, 'indexOrder'])->name('home');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/products/{id_product}/restore', [ProductController::class, 'restore'])->name('products.restore');
 
+// Example middleware
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/home', [OrderController::class, 'checkout'])->name('checkout');
+});
 
-
-
-
+Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');

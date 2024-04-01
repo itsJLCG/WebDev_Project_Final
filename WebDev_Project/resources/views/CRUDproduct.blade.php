@@ -47,11 +47,25 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('products.edit', $product->id_product) }}" class="btn btn-primary">Update</a>
+                                    {{-- <a href="{{ route('products.edit', $product->id_product) }}" class="btn btn-primary">Update</a>
                                     <form action="{{ route('products.destroy', $product->id_product) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button> --}}
+                                        @if($product->deleted_at == null)
+                                            <a href="{{ route('products.edit', $product->id_product) }}" class="btn btn-primary">Update</a>
+                                            <form action="{{ route('products.destroy', $product->id_product) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                            @else
+                                            <a href="{{ route('products.edit', $product->id_product) }}" class="btn btn-primary">Update</a>
+                                            <form action="{{ route('products.restore', $product->id_product) }}" method="GET">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">Restore</button>
+                                            </form>
+                                        @endif
                                     </form>
                                 </td>
                             </tr>
