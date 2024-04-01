@@ -39,12 +39,22 @@
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="image">Profile Picture</label>
-                    <input type="file" name="image" id="image" class="form-control-file">
+                    <label for="user_image">Profile Pictures</label>
+                    <input type="file" name="user_image[]" class="form-control-file" multiple>
                 </div>
-                <!-- Image preview container -->
-                <div id="image-preview" style="margin-bottom: 20px;">
-                    <img src="{{ asset('storage/images/' . $user->image) }}" id="preview-image" style="max-width: 100%; height: auto;">
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select name="role" id="role" class="form-control">
+                        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>user</option>
+                        <option value="Admin" {{ $user->role == 'Admin' ? 'selected' : '' }}>Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="accountStatus">Account Status</label>
+                    <select name="accountStatus" id="accountStatus" class="form-control">
+                        <option value="Activated" {{ $user->accountStatus == 'Activated' ? 'selected' : '' }}>Activated</option>
+                        <option value="Deactivated" {{ $user->accountStatus == 'Deactivated' ? 'selected' : '' }}>Deactivated</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Update User</button>
             </form>

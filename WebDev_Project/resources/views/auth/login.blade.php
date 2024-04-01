@@ -11,6 +11,19 @@
         }
     </style>
 
+    @if (session('message'))
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert" style="max-width: 400px;">
+                        <strong>Attention!</strong> {!! session('message') !!}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">

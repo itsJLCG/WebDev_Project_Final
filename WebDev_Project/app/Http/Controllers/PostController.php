@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use App\DataTables\PostDataTable;
 
 class PostController extends Controller
 {
-    public function index()
+    public function getPost(PostDataTable $dataTable)
+    {
+    // Fetch only active users
+    $posts = Post::query()->get();
+
+    return $dataTable->render('posts.datatable', compact('posts'));
+    }
+   /*  public function index()
     {
         $posts = Post::withTrashed()->get();
-        return view('promotions/createpromo', compact('posts'));
-    }
+        return view('/post/datatable', compact('posts'));
+    } */
 
     public function destroy($id)
     {
@@ -21,7 +29,7 @@ class PostController extends Controller
         // Delete the product
         $post->delete();
 
-        return redirect('/createpromoIndex')->with('status', 'Post deleted successfully!');
+        return redirect('/post/datatable')->with('status', 'Post deleted successfully!');
     }
 
     public function edit($id)
@@ -32,27 +40,29 @@ class PostController extends Controller
 
 
     public function update(Request $request, $id)
-    {
-        $post = Post::find($id);
+{
+    $post = Post::find($id);
 
-        // Handle selected images
-        if ($request->hasFile('images')) {
-            $postImages = [];
-            foreach ($request->file('images') as $image) {
-                // Move each image to the public/images directory
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('storage/images'), $imageName);
-                $postImages[] = $imageName;
-            }
-            // Store the list of image filenames as a comma-separated string
-            $post->image = implode(',', $postImages);
+    // Handle selected images
+    if ($request->hasFile('images')) {
+        $postImages = [];
+        foreach ($request->file('images') as $image) {
+            // Store the image in the storage/images directory with original file name
+            $imageName = $image->getClientOriginalName();
+            $imagePath = $image->store('public/images');
+            // Get the file name without the 'public/images/' prefix
+            $relativePath = str_replace('public/images/', '', $imagePath);
+            $postImages[] = $relativePath;
         }
-
-        // Update other fields
-        $post->update($request->except('images'));
-
-        return redirect('/createpromoIndex')->with('status', 'Post updated successfully.');
+        // Store the list of image file names as a comma-separated string
+        $post->image = implode(',', $postImages);
     }
+
+    // Update other fields
+    $post->update($request->except('images'));
+
+    return redirect('/post/datatable')->with('status', 'Post updated successfully.');
+}
 
     public function create()
     {
@@ -68,30 +78,36 @@ class PostController extends Controller
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
     ]);
 
-    // Create a new product instance
+    // Create a new post instance
     $post = new Post();
     $post->product_name = $request->product_name;
     $post->message_text = $request->message_text;
 
     // Handle selected images
+    // Handle selected images
     if ($request->hasFile('images')) {
         $postImages = [];
         foreach ($request->file('images') as $image) {
-            // Move each image to the public/images directory
+            // Store the image in the storage/images directory with original file name
             $imageName = $image->getClientOriginalName();
-            $image->move(public_path('storage/images'), $imageName);
-            $postImages[] = $imageName;
+            $imagePath = $image->store('public/images');
+            // Get the file name without the 'public/images/' prefix
+            $relativePath = str_replace('public/images/', '', $imagePath);
+            $postImages[] = $relativePath;
         }
-        // Store the list of image filenames as a comma-separated string
+        // Store the list of image file names as a comma-separated string
         $post->image = implode(',', $postImages);
     }
 
-    // Save the product
+
+
+    // Save the post
     $post->save();
 
     // Redirect back to the index page with a success message
-    return redirect('/createpromoIndex')->with('status', 'Post created successfully.');
+    return redirect('/post/datatable')->with('status', 'Post created successfully.');
 }
+
 
     public function indexOrder()
     {
@@ -108,6 +124,6 @@ class PostController extends Controller
     {
         $post = Post::withTrashed()->where('id', $id)->first();
         $post->restore();
-        return redirect()->route('posts')->with('success', 'Post restored successfully.');
+        return redirect()->back()->with('success', 'Post restored successfully.');
     }
 }

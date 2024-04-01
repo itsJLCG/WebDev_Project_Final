@@ -38,9 +38,24 @@
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="image">Profile Picture</label>
-                    <input type="file" name="image" id="image" class="form-control-file">
+                    <label for="user_image">Profile Picture</label>
+                    <input type="file" name="user_image[]" class="form-control-file" multiple>
                 </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select name="role" id="role" class="form-control">
+                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>user</option>
+                        <option value="Admin" {{ old('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="accountStatus">Account Status</label>
+                    <select name="accountStatus" id="accountStatus" class="form-control">
+                        <option value="Activated" {{ old('accountStatus') == 'Activated' ? 'selected' : '' }}>Activated</option>
+                        <option value="Deactivated" {{ old('accountStatus') == 'Deactivated' ? 'selected' : '' }}>Deactivated</option>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Create User</button>
             </form>
         </div>

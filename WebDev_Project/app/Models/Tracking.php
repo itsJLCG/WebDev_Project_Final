@@ -13,4 +13,5 @@ class Tracking extends Model
         'id_payment',
         'trackingStatus',
     ];
+    protected $primaryKey = 'id_tracking';
 }

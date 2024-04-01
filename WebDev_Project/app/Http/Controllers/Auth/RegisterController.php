@@ -4,24 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
@@ -29,7 +18,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login'; // Redirect to /login after registration
 
     /**
      * Create a new controller instance.
@@ -63,26 +52,41 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-{
-    $user = User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-        'role' => 'user',
-    ]);
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 'user',
+            'accountStatus' => 'Activated',
+        ]);
 
-    if (isset($data['user_image'])) {
         $imagePaths = [];
-        foreach ($data['user_image'] as $image) {
-            $fileName = $image->getClientOriginalName(); // Get the original file name
-            $path = 'images/' . $fileName; // New file path
-            move_uploaded_file($image->getPathname(), public_path($path)); // Move the file
-            $imagePaths[] = $fileName; // Store file name in array
+        if (isset($data['user_image'])) {
+            foreach ($data['user_image'] as $image) {
+                $imageName = $image->hashName(); // Get a unique filename
+                $image->storeAs('public/images', $imageName); // Store the image in the storage/images directory
+                $imagePaths[] = 'storage/images/' . $imageName; // Store the image path in the array
+            }
+            $user->user_image = implode(',', $imagePaths); // Combine paths into comma-separated string
+            $user->save();
         }
-        $user->user_image = implode(',', $imagePaths); // Combine paths into comma-separated string
-        $user->save();
+
+
+
+
+        return $user;
     }
 
-    return $user;
-}
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect($this->redirectTo); // Redirect to /login after registration
+    }
 }

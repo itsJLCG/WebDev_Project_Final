@@ -61,15 +61,20 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->role === 'Admin')
                                         <a class="dropdown-item" href="{{ route('adminPage') }}">Stocks</a>
-                                        <a class="dropdown-item" href="{{ url('/users') }}">Users</a>
-                                        <a class="dropdown-item" href="{{ url('/CRUDproductIndex') }}">Add Product</a>
-                                        <a class="dropdown-item" href="{{ url('/createpromoIndex') }}">Create Promotions</a>
+                                        <a class="dropdown-item" href="{{ url('/product/datatable') }}">Product Creation</a>
+                                        <a class="dropdown-item" href="{{ url('/user/datatable') }}">Account Creation/Activation</a>
+                                        <a class="dropdown-item" href="{{ url('/feedback/datatable') }}">Feedback Views</a>
+                                        <a class="dropdown-item" href="{{ url('/post/datatable') }}">Create Promotions</a>
+                                        <a class="dropdown-item" href="{{ route('trackings') }}">Tracking Status</a>
+                                        <a class="dropdown-item" href="{{ url('/stocks') }}">Stocks</a>
                                     @endif
                                     @if(Auth::user()->role === 'user')
                                     <a class="dropdown-item" href="{{ route('home') }}">Shop Here</a>
                                     <a class="dropdown-item" href="{{ route('cart.show') }}">Cart</a>
                                     <a class="dropdown-item" href="{{ url('/posts') }}">Promotions</a>
                                     <a class="dropdown-item" href="{{ route('orders') }}">Orders Status</a>
+                                    <a class="dropdown-item" href="{{ url('/feedback/datatable') }}">Feedback Creation</a>
+                                    <a class="dropdown-item" href="{{ url('/profile') }}">Profile</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

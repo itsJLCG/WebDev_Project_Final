@@ -10,6 +10,7 @@ use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\Tracking;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -120,6 +121,7 @@ class OrderController extends Controller
     public function checkout(Request $request)
 {
     $userId = Auth::id();
+    $userEmail = Auth::user()->email;
 
     // Fetch cart items for the user
     $cartItems = Cart::where('id_user', $userId)->get();
@@ -140,7 +142,7 @@ class OrderController extends Controller
     $order->save();
 
     // Retrieve the generated id_order
-    $orderId = $order->id;
+    $orderId = $order->id_order;
 
     // Proceed with creating order details and updating stock
     foreach ($cartItems as $cartItem) {
@@ -173,35 +175,43 @@ class OrderController extends Controller
     // Clear the cart after successful checkout
     Cart::where('id_user', $userId)->delete();
 
+    Mail::send('emails.orderCreated', [], function($message) use ($userEmail) {
+        $message->to($userEmail)->subject('Order Created Subject');
+    });
+
     // Redirect to cart page after successful checkout
     return redirect()->route('cart.show')->with('message', 'Order placed successfully!');
 }
 
 
 public function showOrders()
-    {
-        // Get the ID of the logged-in user
-        $userId = Auth::id();
+{
+    // Get the ID of the logged-in user
+    $userId = Auth::id();
 
-        // Fetch orders associated with the logged-in user along with their details
-        $orders = Order::select(
-            'orders.id_order',
-            'orders.id_user',
-            'orderDetails.id_orderDetail',
-            'orderDetails.id_product',
-            'orderDetails.orderQuantity',
-            'payments.id_payment',
-            'trackings.id_tracking',
-            'trackings.trackingStatus'
-        )
-        ->join('orderDetails', 'orders.id_order', '=', 'orderDetails.id_order')
-        ->join('payments', 'orderDetails.id_orderDetail', '=', 'payments.id_orderDetail')
-        ->join('trackings', 'payments.id_payment', '=', 'trackings.id_payment')
-        ->where('orders.id_user', $userId)
-        ->get();
+    // Fetch orders associated with the logged-in user along with their details
+    $orders = Order::select(
+        'orders.id_order',
+        'orders.id_user',
+        'orderDetails.id_orderDetail',
+        'orderDetails.id_product',
+        'orderDetails.orderQuantity',
+        'payments.id_payment',
+        'trackings.id_tracking',
+        'trackings.trackingStatus'
+    )
+    ->join('orderDetails', 'orders.id_order', '=', 'orderDetails.id_order')
+    ->join('payments', 'orderDetails.id_orderDetail', '=', 'payments.id_orderDetail')
+    ->join('trackings', 'payments.id_payment', '=', 'trackings.id_payment')
+    ->where('orders.id_user', $userId)
+    ->get();
 
-        // Pass the orders data to the view
-        return view('orders', compact('orders'));
-    }
+    // Store id_tracking in session
+    $idTracking = $orders->pluck('id_tracking')->first(); // Assuming there is only one tracking ID per order
+    session(['id_tracking' => $idTracking]);
+
+    // Pass the orders data to the view
+    return view('orders', compact('orders'));
+}
 
 }

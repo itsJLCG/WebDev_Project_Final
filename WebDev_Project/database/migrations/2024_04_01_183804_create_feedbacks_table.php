@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_trackings', function (Blueprint $table) {
+        Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
+            $table->string('username');
+            $table->string('rating');
+            $table->string('images')->nullable();
             $table->timestamps();
+        });
+
+        // Add soft delete column
+        Schema::table('feedbacks', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -22,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_trackings');
+        Schema::dropIfExists('feedbacks');
     }
 };

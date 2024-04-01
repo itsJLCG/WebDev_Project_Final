@@ -15,5 +15,8 @@
         "react-dom": "^18.2.0",
         "sass": "^1.56.1",
         "vite": "^5.2.7"
+    },
+    "dependencies": {
+        "chart.js": "^4.4.2"
     }
 }

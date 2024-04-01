@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Trackings', function (Blueprint $table) {
-            $table->id('id_tracking');
-            $table->unsignedBigInteger('id_payment');
-            $table->string('trackingStatus');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id('id_comment');
+            $table->unsignedBigInteger('id_tracking');
+            $table->string('comment');
+            $table->string('commentImage');
             $table->timestamps();
-            $table->foreign('id_payment')->references('id_payment')->on('payments')->onDelete('cascade');
+
+            $table->foreign('id_tracking')->references('id_tracking')->on('trackings')->onDelete('cascade');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Trackings');
+        Schema::dropIfExists('comments');
     }
 };
