@@ -27,9 +27,18 @@
                                 <label for="rating">Rating:</label>
                                 <select name="rating" id="rating" class="form-control" required>
                                     <option value="">Select rating</option>
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                    @php
+                                        $labels = [
+                                            1 => 'Very Unsatisfied',
+                                            2 => 'Unsatisfied',
+                                            3 => 'Neutral',
+                                            4 => 'Satisfied',
+                                            5 => 'Very Satisfied',
+                                        ];
+                                    @endphp
+                                    @foreach ($labels as $value => $label)
+                                        <option value="{{ $value }}">{{ $label }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">

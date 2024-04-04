@@ -40,27 +40,36 @@ class ProductController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $product = Product::find($id);
+{
+    // Validate the incoming request data
+    $request->validate([
+        'product_name' => 'required|string|max:255',
+        'product_description' => 'required|string',
+        'product_price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'], // Only accept numbers
+        'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
+    ]);
 
-        // Handle selected images
-        if ($request->hasFile('product_images')) {
-            $productImages = [];
-            foreach ($request->file('product_images') as $image) {
-                // Move each image to the public/images directory
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('storage/images'), $imageName);
-                $productImages[] = $imageName;
-            }
-            // Store the list of image filenames as a comma-separated string
-            $product->product_image = implode(',', $productImages);
+    // Find the product by its ID
+    $product = Product::findOrFail($id);
+
+    // Handle selected images
+    if ($request->hasFile('product_images')) {
+        $productImages = [];
+        foreach ($request->file('product_images') as $image) {
+            // Move each image to the public/images directory
+            $imageName = $image->getClientOriginalName();
+            $image->move(public_path('storage/images'), $imageName);
+            $productImages[] = $imageName;
         }
-
-        // Update other fields
-        $product->update($request->except('product_images'));
-
-        return redirect('product/datatable')->with('status', 'Product updated successfully.');
+        // Store the list of image filenames as a comma-separated string
+        $product->product_image = implode(',', $productImages);
     }
+
+    // Update other fields
+    $product->update($request->except('product_images'));
+
+    return redirect('product/datatable')->with('status', 'Product updated successfully.');
+}
 
     public function create()
     {
@@ -74,7 +83,7 @@ class ProductController extends Controller
             'product_name' => 'required|string|max:255',
             'product_description' => 'required|string',
             'product_price' => 'required|numeric',
-            'product_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
+            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
         ]);
 
         // Create a new product instance
@@ -122,5 +131,33 @@ class ProductController extends Controller
         $products->restore();
         return redirect()->back()->with('success', 'Product restored successfully.');
     }
+
+    public function showStocks()
+{
+    $products = Product::with('stocks')->get();
+    return view('products', compact('products'));
+}
+
+public function ordersPerProduct()
+{
+    $products = Product::with('orderDetails')->get();
+
+    $data = [];
+
+    foreach ($products as $product) {
+        $orderCounts = $product->orderDetails->groupBy(function ($orderDetail) {
+            return $orderDetail->created_at->format('Y-m-d');
+        })->map(function ($group) {
+            return $group->count();
+        });
+
+        $data[] = [
+            'product_name' => $product->product_name,
+            'order_counts' => $orderCounts,
+        ];
+    }
+
+    return view('orders_per_product', compact('data'));
+}
 
 }

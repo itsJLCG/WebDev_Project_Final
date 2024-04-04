@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\Tracking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -212,6 +213,20 @@ public function showOrders()
 
     // Pass the orders data to the view
     return view('orders', compact('orders'));
+}
+
+public function showChart()
+{
+    $orders = DB::table('orderDetails')
+                ->join('products', 'orderDetails.id_product', '=', 'products.id_product')
+                ->select('products.product_name', DB::raw('SUM(orderDetails.OrderQuantity) as total_quantity'))
+                ->groupBy('products.product_name')
+                ->get();
+
+    $labels = $orders->pluck('product_name');
+    $quantities = $orders->pluck('total_quantity');
+
+    return view('orders.graph', compact('labels', 'quantities'));
 }
 
 }

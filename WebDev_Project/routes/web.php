@@ -12,8 +12,9 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\StockChartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -141,7 +142,7 @@ Route::prefix('feedbacks')->group(function () {
 
 Route::get('/feedback/datatable', [FeedbackController::class, 'getFeedback'])->name('feedbacks');
 
-Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
 
 // Account update routes
 Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
@@ -158,4 +159,12 @@ Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
 Route::put('/stocks/{id}', [StockController::class, 'update'])->name('stocks.update');
 
 Route::get('/stocks/graph', [StockController::class, 'showGraph'])->name('stocks.graph');
+Route::get('/chart', [StockChartController::class, 'showChart'])->name('chart.show');
 });
+
+Route::get('/products', [ProductController::class, 'showStocks'])->name('products.showStocks');
+
+Route::get('/orders-per-product', [ProductController::class, 'ordersPerProduct'])->name('orders.per.product');
+Route::get('/feedback-chart', [FeedbackController::class, 'showChart'])->name('feedback.chart');
+Route::get('/stocks/graph', [StockController::class, 'showChart'])->name('stocks.graph');
+Route::get('/orders/graph', [OrderController::class, 'showChart'])->name('orders.graph');

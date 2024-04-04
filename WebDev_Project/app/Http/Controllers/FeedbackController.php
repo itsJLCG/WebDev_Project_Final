@@ -7,6 +7,9 @@ use App\Models\Feedback;
 use Illuminate\Support\Facades\Auth;
 use App\DataTables\FeedbackDataTable;
 
+use Illuminate\Support\Facades\DB;
+
+
 class FeedbackController extends Controller
 {
     // public function index()
@@ -38,7 +41,7 @@ class FeedbackController extends Controller
         $request->validate([
             'username' => 'required',
             'rating' => 'required', // Change 'comment' to 'rating'
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048576',
         ]);
 
         $feedback = new Feedback();
@@ -70,7 +73,7 @@ class FeedbackController extends Controller
         $request->validate([
             'username' => 'required',
             'rating' => 'required', // Change 'comment' to 'rating'
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048576',
         ]);
 
         $feedback->username = $request->username;
@@ -104,6 +107,32 @@ class FeedbackController extends Controller
         $feedback = Feedback::withTrashed()->find($id);
         $feedback->restore();
         return redirect()->back()->with('success', 'Feedback restored successfully!');
+    }
+
+    public function showChart()
+    {
+    $ratings = DB::table('feedbacks')
+                ->select('rating', DB::raw('COUNT(id) as count'))
+                ->groupBy('rating')
+                ->pluck('count', 'rating')
+                ->toArray();
+
+    // Mapping ratings to their corresponding labels
+    $labels = [
+        1 => 'Very Unsatisfied',
+        2 => 'Unsatisfied',
+        3 => 'Neutral',
+        4 => 'Satisfied',
+        5 => 'Very Satisfied',
+    ];
+
+    // Adding labels to ratings data
+    foreach ($ratings as $rating => $count) {
+        $ratings[$labels[$rating]] = $count;
+        unset($ratings[$rating]);
+    }
+
+        return view('feedback.chart', compact('ratings'));
     }
 }
 

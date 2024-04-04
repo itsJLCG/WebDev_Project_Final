@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Storage;
 class CommentController extends Controller
 {
     public function index(Request $request, $id_tracking)
-    {
-        // Store the id_tracking in the session
-        session(['id_tracking' => $id_tracking]);
+{
+    // Store the id_tracking in the session
+    session(['id_tracking' => $id_tracking]);
 
-        // Pass the id_tracking to the view
-        return view('comment', ['id_tracking' => $id_tracking]);
-    }
+    // Fetch comments related to the tracking ID
+    $comments = Comment::where('id_tracking', $id_tracking)->get();
+
+    // Pass the comments and id_tracking to the view
+    return view('comment', ['comments' => $comments, 'id_tracking' => $id_tracking]);
+}
+
     public function store(Request $request)
 {
     // Retrieve the id_tracking from the session

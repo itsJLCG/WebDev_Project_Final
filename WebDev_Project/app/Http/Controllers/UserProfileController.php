@@ -2,52 +2,126 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-
-use App\Models\User;
 
 class UserProfileController extends Controller
 {
-    public function show()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+
+    public function index()
     {
-        $user = Auth::user();
-        return view('profile.show', compact('user'));
+        $user = Auth::user(); // Fetch the authenticated user
+        return view('profile.index', compact('user'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'user_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576', // 1GB in KB // Add validation for user images
+            // Add validation for other fields as needed
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+
+        if ($request->hasFile('user_image')) {
+            $imagePaths = [];
+            foreach ($request->file('user_image') as $image) {
+                $imagePath = $image->store('public/images');
+                $imagePaths[] = str_replace('public/', 'storage/', $imagePath);
+            }
+            $user->user_image = implode(',', $imagePaths);
+        }
+        // Save user data
+        $user->save();
+
+        return redirect()->route('profile.index')->with('success', 'User created successfully.');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\View\View
+     */
+    /**
+ * Show the form for editing the specified resource.
+ *
+ * @param  \App\Models\User  $user
+ * @return \Illuminate\View\View
+ */
     public function edit()
     {
-        $user = Auth::user();
+        $user = Auth::user(); // Fetch the authenticated user
         return view('profile.edit', compact('user'));
     }
 
-public function update(Request $request)
-{
-    $user = Auth::user();
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:6|confirmed', // Add password validation
-        'user_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for profile image
-        // Add other validation rules as needed
-    ]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, User $user)
+    {
+        $user = $request->user();
+        $request->validate([
+            'name' => 'string|max:255',
+            'email' => 'string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'string|min:6',
+            'user_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576', // Add validation for user images
+            // Add validation for other fields as needed
+        ]);
 
-    // Update other user attributes
-    $data = $request->except('user_image', 'password', 'password_confirmation');
-    if ($request->filled('password')) {
-        $data['password'] = bcrypt($request->password);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->hasFile('user_image')) {
+            $imagePaths = [];
+            foreach ($request->file('user_image') as $image) {
+                $imagePath = $image->store('public/images');
+                $imagePaths[] = str_replace('public/', 'storage/', $imagePath);
+            }
+            $user->user_image = implode(',', $imagePaths);
+        }
+
+        // Save updated user data
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'user_image.*' => $imagePaths, // Corrected column name
+        ]);
+
+        return redirect()->route('profile.index')->with('success', 'User updated successfully.');
     }
-
-    // Handle profile image update
-    if ($request->hasFile('user_image')) {
-        // Handle profile image upload
-    }
-
-    return redirect()->route('profile.show')->with('success', 'Profile updated successfully.');
 }
-
-
-    }

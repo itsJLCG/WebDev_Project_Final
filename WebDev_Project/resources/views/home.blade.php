@@ -19,10 +19,8 @@
                         </div>
                     @endif
 
-                    <!-- Form for ordering all products at once -->
                     <form id="orderForm" action="{{ route('order.storeAll') }}" method="POST">
                         @csrf
-                        <!-- "Order All" button -->
                         <button type="button" id="addToCartBtn" class="btn btn-danger mb-3">Add To Cart</button>
                         <div class="row" id="productList">
                             @foreach ($products as $product)
@@ -65,7 +63,6 @@
 </div>
 
 <script>
-    // JavaScript code to validate order quantity against available stock quantity
     document.addEventListener('DOMContentLoaded', function () {
         const addToCartBtn = document.getElementById('addToCartBtn');
         const searchInput = document.getElementById('searchInput');

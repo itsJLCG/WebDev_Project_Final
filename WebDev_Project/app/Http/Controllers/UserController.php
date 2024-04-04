@@ -89,7 +89,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'user_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576', // Add validation for image upload
+            'user_image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048576', // Add validation for image upload
             'role' => 'required|string|in:user,Admin',
             'accountStatus' => 'required|string|in:Activated,Deactivated',
         ]);
@@ -147,8 +147,8 @@ public function update(Request $request, User $user)
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:8',
-        'user_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1048576', // Add validation for image upload
+        'password' => 'required|string|min:8',
+        'user_image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048576', // Add validation for image upload
         'role' => 'required|string|in:user,Admin',
         'accountStatus' => 'required|string|in:Activated,Deactivated',
     ]);

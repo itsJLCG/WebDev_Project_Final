@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class product extends Model
 {
     use HasFactory;
@@ -22,5 +23,9 @@ class product extends Model
     public function stock()
     {
         return $this->hasOne(Stock::class, 'id_product');
+    }
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'id_product');
     }
 }

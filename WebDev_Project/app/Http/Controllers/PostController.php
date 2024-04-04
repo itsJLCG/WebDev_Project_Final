@@ -41,6 +41,7 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
 {
+
     $post = Post::find($id);
 
     // Handle selected images
@@ -75,7 +76,7 @@ class PostController extends Controller
     $request->validate([
         'product_name' => 'required|string|max:255',
         'message_text' => 'required|string',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
+        'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image files
     ]);
 
     // Create a new post instance

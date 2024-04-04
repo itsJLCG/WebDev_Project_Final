@@ -65,17 +65,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                           {{--  @foreach($comments as $comment)
+                            @foreach($comments as $comment)
                             <tr>
                                 <td>{{ $comment->comment }}</td>
                                 <td>
-                                    @foreach(explode(',', $comment->commentImage) as $image)
-                                        <img src="{{ asset('public/storage/images/' . $image) }}" alt="Comment Image" style="max-width: 100px;">
-                                    @endforeach
+                                    @if($comment->commentImage)
+                                        @foreach(explode(',', $comment->commentImage) as $image)
+                                            <img src="{{ asset('storage/images/' . $image) }}" alt="Comment Image" style="max-width: 100px; max-height: 100px;">
+                                        @endforeach
+                                    @endif
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
+
                     </table>
                 </div>
             </div>
