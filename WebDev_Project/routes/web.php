@@ -160,7 +160,7 @@ Route::put('/stocks/{id}', [StockController::class, 'update'])->name('stocks.upd
 
 Route::get('/stocks/graph', [StockController::class, 'showGraph'])->name('stocks.graph');
 Route::get('/chart', [StockChartController::class, 'showChart'])->name('chart.show');
-});
+
 
 Route::get('/products', [ProductController::class, 'showStocks'])->name('products.showStocks');
 
@@ -168,3 +168,5 @@ Route::get('/orders-per-product', [ProductController::class, 'ordersPerProduct']
 Route::get('/feedback-chart', [FeedbackController::class, 'showChart'])->name('feedback.chart');
 Route::get('/stocks/graph', [StockController::class, 'showChart'])->name('stocks.graph');
 Route::get('/orders/graph', [OrderController::class, 'showChart'])->name('orders.graph');
+
+});

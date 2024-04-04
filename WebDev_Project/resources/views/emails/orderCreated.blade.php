@@ -36,7 +36,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ asset('storage/images/logos.png') }}" alt="EShop Beauty and Bottles Logo" class="logo">
+        <img src="{{ asset('storage/images/Logos.png') }}" alt="EShop Beauty and Bottles Logo" class="logo">
         <h1>Thank You For Shopping</h1>
         <h3>ESHOP Beauty and Bottles</h3>
     </div>

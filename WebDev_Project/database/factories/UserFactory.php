@@ -22,18 +22,26 @@ class UserFactory extends Factory
      * @return array
      */
     public function definition()
-    {
-        return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'), // Hashed password
-            'remember_token' => Str::random(10),
-            'user_image' => 'defaultprofile_male.jpg', // Default image name
-            'role' => 'user',
-            'accountStatus' => 'Activated', // Assuming account is initially active
-        ];
+{
+    $role = $this->faker->randomElement(['user', 'Admin']); // Randomly select user or admin role
+
+    // Convert role to lowercase if it's 'user'
+    if ($role === 'user') {
+        $role = strtolower($role);
     }
+
+    return [
+        'name' => $this->faker->name,
+        'email' => $this->faker->unique()->safeEmail,
+        'email_verified_at' => now(),
+        'password' => Hash::make('password'), // Hashed password
+        'remember_token' => Str::random(10),
+        'user_image' => 'defaultprofile_male.jpg', // Default image name
+        'role' => $role,
+        'accountStatus' => 'Activated', // Assuming account is initially active
+    ];
+}
+
 
     /**
      * Indicate that the model's email address should be unverified.
